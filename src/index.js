@@ -12,10 +12,13 @@ const valueShape = PropTypes.oneOfType([
   PropTypes.number,
   PropTypes.bool,
   PropTypes.object
-])
+]);
+
+const errorShape = PropTypes.any;
 
 const formContextShape = PropTypes.shape({
   value: valueShape.isRequired,
+  errors: errorShape.isRequired,
   onChange: PropTypes.func.isRequired
 });
 
@@ -26,8 +29,8 @@ const consumesFormContext = getContext({
 const providesFormContext = withContext(
   { form: formContextShape },
   function getChildContext(props) {
-    const { value, onChange } = props;
-    return { form: { value, onChange }};
+    const { value, errors, onChange } = props;
+    return { form: { value, errors, onChange }};
   }
 );
 
@@ -39,6 +42,7 @@ const providesFieldProps = withProps(function fieldProps(props) {
 
   return {
     value: form.value[name],
+    errors: form.errors[name],
     onChange: function(e) {
       const value = {
         ...form.value,

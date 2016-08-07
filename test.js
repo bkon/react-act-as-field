@@ -1,6 +1,6 @@
 import "babel-polyfill"
 import React from "react";
-import { field } from "./lib/index";
+import { field } from "./src/index";
 import { mount } from "enzyme";
 import sinon from "sinon";
 
@@ -13,8 +13,20 @@ const doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
 global.document = doc;
 global.window = doc.defaultView;
 
-const SimpleField = field(function simpleField(props) {
-  return (<input { ...props }/>);
+const Errors = field(function err(props) {
+  const { errors } = props;
+  const e = Object.keys(errors)[0];
+
+  return (
+    <div>{ e }</div>
+  );
+});
+
+const SimpleField = field(function simpleField({ type, name, value, onChange }) {
+  return (<input name={ name }
+                 type={ type }
+                 value={ value }
+                 onChange={ onChange } />);
 });
 
 const ComplexField = field(function complexField() {
@@ -22,6 +34,7 @@ const ComplexField = field(function complexField() {
     <div>
       <SimpleField name="c" type="text" />
       <SimpleField name="d" type="text" />
+      <Errors name="d" />
     </div>
   )
 });
@@ -48,6 +61,17 @@ describe("field HOC", () => {
           c: "AA",
           d: "BB"
         }
+      },
+      errors: {
+        a: {},
+        b: {
+          c: {
+            format: true
+          },
+          d: {
+            isEmail: true
+          }
+        }
       }
     }
     subject = mount(
@@ -59,6 +83,10 @@ describe("field HOC", () => {
     expect(subject.find("[name='a']")).to.have.attr("value").equal("11");
     expect(subject.find("[name='c']")).to.have.attr("value").equal("AA");
     expect(subject.find("[name='d']")).to.have.attr("value").equal("BB");
+  });
+
+  it("propagates errors", () => {
+    expect(subject).to.have.text("isEmail");
   });
 
   context("when nested simple field is changed", () => {
