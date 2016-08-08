@@ -1,6 +1,6 @@
 import "babel-polyfill"
 import React from "react";
-import { field } from "./src/index";
+import { field, decorator } from "./src/index";
 import { mount } from "enzyme";
 import sinon from "sinon";
 
@@ -18,7 +18,18 @@ const Errors = field(function err(props) {
   const e = Object.keys(errors)[0];
 
   return (
-    <div>{ e }</div>
+    <div className="error">{ e }</div>
+  );
+});
+
+const ErrorDecorator = decorator(function dec({ errors, children }) {
+  const e = Object.keys(errors)[0];
+
+  return (
+    <div>
+      <div className="decorator">{ e }</div>
+      <div>{ children }</div>
+    </div>
   );
 });
 
@@ -32,11 +43,13 @@ const SimpleField = field(function simpleField({ type, name, value, onChange }) 
 const ComplexField = field(function complexField() {
   return (
     <div>
-      <SimpleField name="c" type="text" />
+      <ErrorDecorator name="c">
+        <SimpleField name="c" type="text" />
+      </ErrorDecorator>
       <SimpleField name="d" type="text" />
       <Errors name="d" />
     </div>
-  )
+  );
 });
 
 const Form = field(function form() {
@@ -86,7 +99,11 @@ describe("field HOC", () => {
   });
 
   it("propagates errors", () => {
-    expect(subject).to.have.text("isEmail");
+    expect(subject.find(".error")).to.have.text("isEmail");
+  });
+
+  it("propagates errors to decorators", () => {
+    expect(subject.find(".decorator")).to.have.text("format");
   });
 
   context("when nested simple field is changed", () => {

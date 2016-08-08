@@ -60,4 +60,12 @@ const field = compose(
   providesFormContext
 );
 
-export { field };
+const decorator = compose(
+  consumesFormContext,
+  providesFieldProps
+);
+
+export {
+  field,
+  decorator
+};
