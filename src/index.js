@@ -11,7 +11,8 @@ const valueShape = PropTypes.oneOfType([
   PropTypes.string,
   PropTypes.number,
   PropTypes.bool,
-  PropTypes.object
+  PropTypes.object,
+  PropTypes.array
 ]);
 
 const errorShape = PropTypes.any;
