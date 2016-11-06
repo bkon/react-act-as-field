@@ -19,7 +19,7 @@ const errorShape = PropTypes.any;
 
 const formContextShape = PropTypes.shape({
   value: valueShape.isRequired,
-  errors: errorShape.isRequired,
+  errors: errorShape,
   onChange: PropTypes.func.isRequired
 });
 
@@ -43,7 +43,7 @@ const providesFieldProps = withProps(function fieldProps(props) {
 
   return {
     value: form.value[name],
-    errors: form.errors[name],
+    errors: form.errors && form.errors[name] || {},
     onChange: function(e) {
       const value = {
         ...form.value,

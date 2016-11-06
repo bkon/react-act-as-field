@@ -87,28 +87,39 @@ describe("field HOC", () => {
         }
       }
     }
-    subject = mount(
+
+    subject = () => mount(
       <Form { ...props }/>
     )
   });
 
   it("sets proper values for all nested fields", () => {
-    expect(subject.find("[name='a']")).to.have.attr("value").equal("11");
-    expect(subject.find("[name='c']")).to.have.attr("value").equal("AA");
-    expect(subject.find("[name='d']")).to.have.attr("value").equal("BB");
+    expect(subject().find("[name='a']")).to.have.attr("value").equal("11");
+    expect(subject().find("[name='c']")).to.have.attr("value").equal("AA");
+    expect(subject().find("[name='d']")).to.have.attr("value").equal("BB");
   });
 
   it("propagates errors", () => {
-    expect(subject.find(".error")).to.have.text("isEmail");
+    expect(subject().find(".error")).to.have.text("isEmail");
   });
 
   it("propagates errors to decorators", () => {
-    expect(subject.find(".decorator")).to.have.text("format");
+    expect(subject().find(".decorator")).to.have.text("format");
+  });
+
+  context("when no errors is provided", () => {
+    beforeEach(() => {
+      props.errors = undefined;
+    });
+
+    it("assumes there's no errors", () => {
+      expect(subject().find(".error")).to.have.text("");
+    });
   });
 
   context("when nested simple field is changed", () => {
     beforeEach(() => {
-      subject.find("[name='a']").simulate("change", { target: { value: "22" }});
+      subject().find("[name='a']").simulate("change", { target: { value: "22" }});
     });
 
     it("calls onChange of the root form element", () => {
