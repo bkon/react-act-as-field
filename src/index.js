@@ -55,15 +55,14 @@ const providesFieldProps = withProps(function fieldProps(props) {
   }
 });
 
-const field = compose(
-  consumesFormContext,
-  providesFieldProps,
-  providesFormContext
-);
-
 const decorator = compose(
   consumesFormContext,
   providesFieldProps
+);
+
+const field = compose(
+  decorator,
+  providesFormContext
 );
 
 export {
