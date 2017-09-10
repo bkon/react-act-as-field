@@ -3,9 +3,10 @@
   "version": "1.0.4",
   "description": "Form field behavior HOC",
   "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "scripts": {
     "test": "cross-env NODE_ENV=test nyc --reporter html mocha",
-    "compile": "babel -d lib src",
+    "compile": "gulp build",
     "prepublish": "npm run compile"
   },
   "author": "",
@@ -21,6 +22,15 @@
     "url": "git@github.com:bkon/react-act-as-field.git"
   },
   "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/enzyme": "^2.8.7",
+    "@types/jsdom": "^11.0.2",
+    "@types/mocha": "^2.2.43",
+    "@types/node": "^8.0.28",
+    "@types/react": "^16.0.5",
+    "@types/react-dom": "^15.5.4",
+    "@types/recompose": "^0.24.1",
+    "@types/sinon": "^2.3.3",
     "babel-cli": "^6.11.4",
     "babel-eslint": "^6.1.2",
     "babel-plugin-istanbul": "^1.0.3",
@@ -33,20 +43,15 @@
     "enzyme": "^2.4.1",
     "eslint": "^3.2.2",
     "eslint-plugin-react": "^6.0.0",
+    "gulp": "^3.9.1",
+    "gulp-typescript": "^3.2.2",
     "jsdom": "^9.4.1",
+    "merge2": "^1.2.0",
     "mocha": "^3.0.1",
     "nyc": "^7.1.0",
     "sinon": "^1.17.5",
-    "sinon-chai": "^2.8.0"
-  },
-  "nyc": {
-    "include": [
-      "src/*.js"
-    ],
-    "require": [
-      "babel-register"
-    ],
-    "sourceMap": false,
-    "instrument": false
+    "sinon-chai": "^2.8.0",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.5.2"
   }
 }

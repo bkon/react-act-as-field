@@ -3,3 +3,4 @@ lib/*
 !.gitkeep
 .nyc_output/
 /coverage/
+/npm-debug.log

@@ -1,0 +1,13 @@
+{
+  "include": [
+    "src/**/*.ts"
+  ],
+  "extension": [
+    ".tsx"
+  ],
+  "require": [
+    "ts-node/register"
+  ],
+  "sourceMap": false,
+  "instrument": false
+}
